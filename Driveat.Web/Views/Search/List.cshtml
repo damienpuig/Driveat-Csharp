@@ -1,0 +1,14 @@
+﻿@model IList<Driveat.data.Dish>
+<div class="span12">
+    <div class="content">
+        <div class="jumbotron">
+            <h1>Result of the query!</h1>
+            <hr>
+            <p class="lead">
+                Cras justo odio, dapibus ac facilisis in, egestas eget quam.
+             Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
+            </p>
+        </div>
+        @Html.Partial("_Dishes", Model)
+    </div>
+</div>

@@ -1,0 +1,23 @@
+﻿@Html.ActionLink("Driveat", "Index", "Home", null, new { @class = "brand" })
+<ul class="nav pull-right">
+    @if (Request.IsAuthenticated) {
+    <li>
+        @Html.ActionLink("Log off", "LogOff", "Account")      
+    </li>
+    <li>
+         @Html.ActionLink(HttpContext.Current.User.Identity.Name, "Index", "Account")
+    </li>
+    }
+    else
+    {
+    <li>
+     @Html.ActionLink("Log in", "Login", "Account")
+    </li>
+    <li>
+        @Html.ActionLink("Sign up", "Register", "Account")
+    </li>
+    }
+    <li>
+     @Html.ActionLink("Add a dish", "New", "Dish")
+    </li>
+</ul>

@@ -1,0 +1,57 @@
+﻿@model Driveat.data.Dish
+
+@{
+    ViewBag.Title = "Show";
+}
+
+<div class="span12">
+    <div class="container">
+        <div class="span9 page-header">
+            <h1>@Model.Name <small>@Model.Dishtype.Name lovely cooked by @Html.ActionLink(Model.Seller.Username, "Show", "User", new { username = Model.Seller.Username }, null)</small></h1>
+        </div>
+        <a data-toggle="modal" href="#BookModal" class="span2 btn btn-primary btn-large btn-success pull-right" style="margin-top:25px;">Book me for @Model.Price £!</a>
+        <!-- Modal -->
+        <div id="BookModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel">Before booking...</h3>
+            </div>
+            @using (Html.BeginForm("Reserve", "Reservation", FormMethod.Post))
+            {
+            <div class="modal-body">
+                <p>This offer is available until the @Model.Availability.ToShortDateString().</p>
+                Enter a date : 
+                 @Html.TextBox("date",null, new { @class = "span2", @placeholder="Enter a date", @type="date", min=DateTime.Now.ToString(@"yyyy-MM-dd"), max=Model.Availability.ToString(@"yyyy-MM-dd") })
+                <p>A Reservation is going to be send to <strong> @Model.Name</strong>. </p> 
+               <p>Once your request is sent, <strong> @Model.Name</strong> can either accept your booking, or
+                reject it.</p> 
+                Enter a meeting hour :
+                 @Html.TextBox("hour",null, new { @class = "span2", @type="time", @value="12:00"})
+                 @Html.Hidden("dishId", Model._id)
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                <input type="submit" value="Book now!" class="span2 btn btn-success pull-right" />
+            </div>
+            }
+        </div>
+
+    </div>
+    <div id="hero span11">
+        <img src="@Url.Content("~/Driveat/public/images/COMMON/dish/" + Model.Picture)" class="span11">
+    </div>
+    <div class="container">
+        <div class="page-header">
+            <h1>Description</h1>
+        </div>
+        <div class="container">
+            @Model.Description
+        </div>
+        <div class="page-header">
+            <h1>What about food? <small>Description about the content of the dish. </small></h1>
+        </div>
+        <div class="container">
+            @Model.Food
+        </div>
+    </div>
+</div>

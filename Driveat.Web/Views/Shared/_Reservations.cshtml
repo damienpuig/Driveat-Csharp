@@ -1,0 +1,95 @@
+﻿@model IList<Driveat.data.Reservation>
+@using Driveat.Services
+@if (Model.Count > 0)
+{
+    <table class="table table-striped table-hover table-bordered">
+        <thead>
+            <tr>
+
+                <th>Picture</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Seller</th>
+                <th>Date</th>
+                <th>Hour</th>
+                <th>Reservation state</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var reservation in Model)
+            {
+                string state = string.Empty;
+                bool disable = false;
+                bool checkout = false;
+                string FormatedState = string.Empty;
+
+                if (reservation.State.Name == Driveat.data.ReservationState.State.CallintoConfirm.Value())
+                {
+                    state = "info";
+                }
+
+                if (reservation.State.Name == Driveat.data.ReservationState.State.Approved.Value())
+                {
+                    state = "success";
+                    checkout = true;
+                }
+
+                if (reservation.State.Name == Driveat.data.ReservationState.State.Declined.Value())
+                {
+                    state = "error";
+                    disable = true;
+                    FormatedState = "Your dish request has been declined by the seller.";
+                }
+
+                if (reservation.State.Name == Driveat.data.ReservationState.State.Canceled.Value())
+                {
+                    state = "warning";
+                    disable = true;
+                    FormatedState = "You canceled the dish request. That state can be changed by the seller only.";
+                }
+                            
+                          
+                <tr class="@state">
+                    <td>
+                        <a href="/Dish/Show?dishid=@reservation.LinkedDish._id" class="thumbnail">
+                            <img src="@Url.Content("~/Driveat/public/images/COMMON/dish/" + reservation.LinkedDish.Picture)">
+                        </a>
+                    </td>
+
+                    <td>@Html.ActionLink(reservation.LinkedDish.Name, "Show", "Dish", new { dishid = reservation.LinkedDish._id }, null)</td>
+                    <td>@reservation.LinkedDish.Price</td>
+                    <td><strong>@Html.ActionLink(reservation.LinkedDish.Seller.Username, "Show", "User", new { username = reservation.LinkedDish.Seller.Username }, new { target = "_blank" })</strong></td>
+                    <td>@reservation.Date.ToString(@"yyyy-MM-dd")</td>
+                    <td>@reservation.Hour.ToShortTimeString()</td>
+                    <td><strong>@reservation.State.Name</strong></td>
+                    <td>
+                        @if (disable)
+                        {
+                            <p>@FormatedState</p>
+                        }
+                        else
+                        {
+
+                            if (checkout)
+                            {
+                            @Html.ActionLink("Cancel", "Cancel", "Reservation", new { id = reservation._id.ToString() }, new { @class = "btn btn-mini btn-danger", onClick = "javascript:if(confirm('Cancel reservation?')){}else{return false;}" })
+                            @Html.ActionLink("Check out!", "Checkout", "Reservation", new { id = reservation._id.ToString() }, new { @class = "btn btn-mini btn-success", onClick = "javascript:if(confirm('Checkout reservation?')){}else{return false;}" })
+
+                            }
+                            else
+                            {
+                            <p>@reservation.State.Name!</p> 
+                            }
+                        }
+                    </td>
+
+                </tr> 
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <span class="label label-important pull-left">Important</span><p class="pull-left">You don't have any reservations at the moment. </p>
+}

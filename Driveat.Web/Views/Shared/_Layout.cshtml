@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - My ASP.NET MVC Application</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="@ViewBag.Description">
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body class="@ViewContext.Controller.ValueProvider.GetValue("controller").RawValue @ViewContext.Controller.ValueProvider.GetValue("action").RawValue">
+    <header class="navbar navbar-inverse navbar-fixed-top">
+        <nav class="navbar-inner">
+            <div class="container">
+                @Html.Partial("_Navigation")
+            </div>
+        </nav>
+    </header>
+    <div id="main" role="main">
+        <div class="container">
+            @Html.Partial("_Messages")
+            <div class="row">
+                @RenderBody()
+            </div>
+            <!--! end of .container -->
+        </div>
+
+    </div>
+
+    <div id="footer">
+
+        <div class="container">
+            <hr />
+
+            <p class=" span3 muted credit" style="margin-top: 40px;">
+                Driveat by <a href="http://google.co.uk">Damien PUIG</a>.
+            </p>
+            <div id="herofooter" class="span4 offset1"></div>
+
+            <p class="pull-right" style="margin-top: 40px;">
+                <a href="#">Back to top</a>
+            </p>
+        </div>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

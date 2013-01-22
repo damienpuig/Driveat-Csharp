@@ -1,0 +1,42 @@
+﻿@model Driveat.Web.Models.RegisterModel
+@{
+    ViewBag.Title = "Register";
+}
+
+<div class="span12">
+             @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-signin", @enctype = "multipart/form-data" }))
+        {
+
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+
+            <h2 class="form-signin-heading">Hello Buddy.</h2>
+              
+            @Html.LabelFor(m => m.UserName)
+            @Html.TextBoxFor(m => m.UserName, new { @placeholder = "Your username" })
+            @Html.ValidationMessageFor(m => m.UserName, null, new { @class = "help-block" })   
+                 
+            @Html.LabelFor(m => m.Email)
+            @Html.TextBoxFor(m => m.Email, new { @placeholder = "Your email" })
+            @Html.ValidationMessageFor(m => m.Email, null, new { @class = "help-block" })
+                             
+            @Html.LabelFor(m => m.Password)
+            @Html.PasswordFor(m => m.Password, new { @placeholder = "Your Password" })
+            @Html.ValidationMessageFor(m => m.Password, null, new { @class = "help-block" })
+
+            @Html.LabelFor(m => m.ConfirmPassword)
+            @Html.PasswordFor(m => m.ConfirmPassword, new { @placeholder = "Your password confirmation" })
+            @Html.ValidationMessageFor(m => m.ConfirmPassword, null, new { @class = "help-block"})
+
+            @Html.LabelFor(m => m.Picture)
+            <input type="file" name="Picture" id="Picture" />
+            @Html.ValidationMessageFor(m => m.Picture)
+                        
+            <button class="btn btn-large btn-success" type="submit">Register!</button>
+        }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

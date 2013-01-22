@@ -1,0 +1,65 @@
+﻿@model Driveat.Web.Models.Dish.EditDishVM
+@{
+    ViewBag.Title = "Edit Dish " + Model.Name;
+}
+<div class="span12 driveatspan">
+    <div class="content">
+        <hgroup class="title">
+            <h1>@ViewBag.Title.</h1>
+        </hgroup>
+
+        <section>
+            <h2>Edit @Model.Name</h2>
+            @using (Html.BeginForm("Edit", "Dish", FormMethod.Post, new{ @enctype="multipart/form-data"}))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+
+                <fieldset>
+                    <legend>Dish form</legend>
+                    <ol>
+                        <li>
+                            @Html.HiddenFor(m => m.id)
+                            @Html.LabelFor(m => m.Name)
+                            @Html.TextBoxFor(m => m.Name)
+                            @Html.ValidationMessageFor(m => m.Name)
+                        </li>
+                        <li>
+                             @Html.LabelFor(m => m.Price)
+                            <div class="input-prepend input-append">
+							<span class="add-on">£</span>
+							 @Html.TextBoxFor(m => m.Price, new { @class = "span2", @id = "appendedPrependedInput" })
+							<span class="add-on">.00</span>
+						</div>
+                            @Html.ValidationMessageFor(m => m.Price)
+                        </li>
+                        <li>
+                            @Html.LabelFor(m => m.SelectedDishType)
+                            @Html.DropDownListFor(m => m.SelectedDishType, Model.DishList)
+                            @Html.ValidationMessageFor(m => m.SelectedDishType)
+                        </li>
+                        <li>
+                            @Html.LabelFor(m => m.Food)
+                            @Html.TextAreaFor(m => m.Food)
+                            @Html.ValidationMessageFor(m => m.Food)
+                        </li>
+                        <li>
+                            @Html.LabelFor(m => m.Description)
+                            @Html.TextAreaFor(m => m.Description)
+                            @Html.ValidationMessageFor(m => m.Description)
+                        </li>
+                        <li>
+                            @Html.LabelFor(m => m.Picture)
+                            <input type="file" name="Picture" id="Picture" />
+                            @Html.ValidationMessageFor(m => m.Picture)
+                        </li>
+                    </ol>
+                    <input type="submit" class="btn btn-success" value="Save changes" />
+                </fieldset>
+            }
+        </section>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

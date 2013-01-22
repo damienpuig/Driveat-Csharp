@@ -1,0 +1,45 @@
+﻿@model Driveat.data.User
+
+@{
+    ViewBag.Title = "Show";
+}
+
+<div class="span7 page-header">
+    <h1>@Model.Username
+        @if (!string.IsNullOrWhiteSpace(Model.Firstname) && !string.IsNullOrWhiteSpace(Model.Lastname))
+        { <small>@Model.Firstname @Model.Lastname is a Driveat cooker</small>}
+    </h1>
+</div>
+
+<div class="span3 pull-right">
+
+    <div class="thumbnail">
+        <img src="@Url.Content("~/Driveat/public/images/COMMON/user/" + Model.Picture)">
+    </div>
+    @if (!string.IsNullOrWhiteSpace(Model.Firstname) && !string.IsNullOrWhiteSpace(Model.Lastname) && @Model.Location != null)
+    {
+        <div class="content">
+            <address>
+                <strong>@Model.Firstname @Model.Lastname</strong><br>
+                @Model.Location.Address<br>
+                <a href="mailto:#">@Model.Email</a>
+            </address>
+        </div>
+    }
+</div>
+
+<div class="span7">
+    <div class="page-header">
+        <h1>What about me?</h1>
+    </div>
+    <p>
+        @Model.AboutYou
+    </p>
+</div>
+<div class="span12">
+    <div class="page-header">
+        <h1>Dishes I cooked</h1>
+    </div>
+  @Html.Partial("_Dishes", Model.Dishes)
+</div>
+

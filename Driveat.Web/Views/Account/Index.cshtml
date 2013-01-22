@@ -1,0 +1,193 @@
+﻿@model Driveat.data.User
+@using Driveat.Services
+@{
+    ViewBag.Title = "Manage Account";
+}
+<div class="span3 menu">
+    <ul class="nav nav-tabs nav-stacked affix">
+        <li>
+            <a href="#">News
+                <i class="icon-chevron-right"></i>
+            </a>
+        </li>
+        <li>
+            <a href="#MyAccount">Manage account
+                <i class="icon-chevron-right"></i>
+            </a>
+        </li>
+        <li>
+            <a href="#MyDishes">Manage dishes
+                <i class="icon-chevron-right"></i>
+            </a>
+        </li>
+        <li>
+            <a href="#MyReservations">Manage reservations 
+                <i class="icon-chevron-right"></i>
+            </a>
+        </li>
+                <li>
+            <a href="#MySales">Manage sales 
+                <i class="icon-chevron-right"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+<div class="span9">
+    <div class="content">
+
+        <!-- News
+        ================================================== -->
+        <section id="MyNews">
+            <div class="page-header">
+                <h1>News</h1>
+            </div>
+            @Html.Partial("_Lorem");
+        </section>
+
+        <section id="MyAccount">
+            <div class="row" style="margin-bottom: 15px;">
+                <div class="span5">
+                    <div class="page-header">
+                        <h1>Welcome @Html.ActionLink(Model.Email, "Show", "User", new { username = Model.Username }, null)</h1>
+                    </div>
+                </div>
+
+
+                <div class="span3">
+                    <a href="/User/Show?username=@Model.Username" class="thumbnail">
+                        <img src="@Url.Content("~/Driveat/public/images/COMMON/user/" + @Model.Picture)">
+                    </a>
+                </div>
+            </div>
+
+            <div class="row">
+                @using (Html.BeginForm("Update", "Account", FormMethod.Post, new { @class = "span9 form-horizontal", @enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+
+                    <div class="control-group">
+                        @Html.LabelFor(m => m.Username, new { @class = "control-label" })
+                        <div class="controls">
+                            @Html.TextBox(Model.Username, Model.Username, new { @disabled = "disabled", @class = "input-xxlarge" })
+                        </div>
+                    </div>
+                
+                    <div class="control-group">
+                        @Html.LabelFor(m => m.Email, new { @class = "control-label" })
+                        <div class="controls">
+                            @Html.TextBox(Model.Email, Model.Email, new { @disabled = "disabled", @class = "input-xxlarge" })
+                        </div>
+                    </div> 
+                
+                    <div class="control-group">
+                        @Html.LabelFor(m => m.Firstname, new { @class = "control-label" })
+                        <div class="controls">
+                            @Html.TextBoxFor(m => m.Firstname, new { @class = "input-xxlarge" })
+                        </div>
+                    </div>
+                
+                    <div class="control-group">
+                        @Html.LabelFor(m => m.Lastname, new { @class = "control-label" })
+                        <div class="controls">
+                            @Html.TextBoxFor(m => m.Lastname, new { @class = "input-xxlarge" })
+                        </div>
+                    </div>  
+                    <div class="control-group">
+                        @Html.LabelFor(m => m.AboutYou, new { @class = "control-label" })
+                        <div class="controls">
+                            @Html.TextAreaFor(m => m.AboutYou, new { @class = "input-xxlarge" })
+                        </div>
+                    </div>  
+                    <div class="control-group">
+                        @Html.LabelFor(m => m.Location.Address, new { @class = "control-label" })
+                        <div class="controls">
+                            @Html.TextAreaFor(m => m.Location.Address, new { @class = "input-xxlarge" })
+                        </div>
+                    </div>  
+                    <div class="control-group">
+                        @Html.LabelFor(m => m.Picture, new { @class = "control-label" })
+                        <div class="controls">
+                            <input type="file" name="file" id="file" class="input-xxlarge" />
+                        </div>
+                    </div>  
+                    <button class="btn btn-success span2 offset5" type="submit">Save changes</button>
+                }
+            </div>
+
+        </section>
+
+        <br />
+
+
+        <section id="MyDishes">
+            <div class="page-header">
+                <h1>My dishes</h1>
+            </div>
+            @if (Model.Dishes.Count > 0)
+            {
+                <table class="table table-striped table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Picture</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Type</th>
+                            <th>Food</th>
+                            <th>Description</th>
+                            <th>Until</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Dishes)
+                        {  
+                            <tr>
+                                <td>
+                                    <a href="/Dish/Show?dishid=@item._id" class="thumbnail">
+                                        <img src="@Url.Content("~/Driveat/public/images/COMMON/dish/" + item.Picture)">
+                                    </a>
+                                </td>
+                                <td>@item.Name</td>
+                                <td>@item.Price</td>
+                                <td><strong>@item.Dishtype.Name</strong></td>
+                                <td>@item.Food</td>
+                                <td>@item.Description</td>
+                                <td>@item.Availability.ToString(@"yyyy-MM-dd")</td>
+                                <td>@Html.ActionLink("Edit", "Edit", "Dish", new { id = item._id }, new { @class = "btn btn-mini btn-warning" })
+                                    @Html.ActionLink("Delete", "Delete", "Dish", new { id = item._id }, new { @class = "btn btn-mini btn-danger", onClick = "javascript:if(confirm('Delete dish?')){}else{return false;}" })
+                                </td>
+
+                            </tr>  
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <span class="label label-important pull-left">Important</span><p class="pull-left">You don't have any dishes at the moment. </p> @Html.ActionLink(" Add a dish", "New", "Dish")
+            }
+
+        </section>
+
+        <br />
+
+        <section id="MyReservations">
+            <div class="page-header">
+                <h1>My reservations</h1>
+            </div>
+                 @Html.Partial("_Reservations", Model.Reservations)
+        </section>
+        <br />
+                <section id="MySales">
+            <div class="page-header">
+                <h1>My sales</h1>
+            </div>
+                 @Html.Partial("_Sales", Model.Sales)
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
