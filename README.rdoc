@@ -3,7 +3,8 @@
 Driveat is a Collaborative Comsumption project allowing users to sell additional food, based on geolocation.
 
 The project used the following technology stack:
-- C# 
+- C#
+- SOLID Principle (Mostly NInject => http://www.ninject.org)
 - MongoDB Database : http://www.mongodb.org
 - MongoDB driver : http://docs.mongodb.org/ecosystem/drivers/csharp
 
