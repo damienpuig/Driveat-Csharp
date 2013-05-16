@@ -4,8 +4,8 @@ Driveat is a Collaborative Comsumption project allowing users to sell additional
 
 The project used the following technology stack:
 - C# 
-- MongoDB Database : http://www.mongodb.org/
-- MongoDB driver : http://docs.mongodb.org/ecosystem/drivers/csharp/
+- MongoDB Database : http://www.mongodb.org
+- MongoDB driver : http://docs.mongodb.org/ecosystem/drivers/csharp
 
 the project is fully workable, but has been developed only for Oxford Brookes University, and didn't have expectations such as:
 - Strong Database Design (Relational + Non-Relational)
